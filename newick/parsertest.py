@@ -98,7 +98,7 @@ class ParserTest(unittest.TestCase):
 
         label_edge_lexer = lexer.Lexer("(dummy,tree)label")
         label_edge_handler = EdgeHandler()
-        label_edge_parser = _Parser(empty_edge_lexer,empty_edge_handler)
+        label_edge_parser = _Parser(label_edge_lexer,label_edge_handler)
         label_edge_parser.parse_edge()
         
         bootstrap_edge_lexer = lexer.Lexer("(dummy,tree) 0.8")
