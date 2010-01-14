@@ -21,12 +21,12 @@ _patterns = [
     (tokens.RParen, 	re.compile(r'\s*(\))\s*'))
     ]
 
-class LexerError(object):
+class LexerError(Exception):
     '''Exception thrown if the lexer encounters an error.'''
     def __init__(self,err):
         self.err = err
 
-    def __repr__(self):
+    def __str__(self):
         return "LexerError: "+self.err
 
 

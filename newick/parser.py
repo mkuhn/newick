@@ -7,12 +7,12 @@ This module contains the functionality for grammatical analysis. '''
 
 import tokens
 
-class ParserError(object):
+class ParserError(Exception):
     '''Exception thrown if the parser encounters an error.'''
     def __init__(self,err):
         self.err = err
 
-    def __repr__(self):
+    def __str__(self):
         return "ParserError: "+self.err
 
 
