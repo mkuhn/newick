@@ -18,6 +18,7 @@ class Tree(object):
     def __init__(self):
         self._edges = []
         self._leaves_cache = None
+        self._identifier = None
 
     def add_edge(self,e):
         '''
@@ -66,6 +67,14 @@ class Tree(object):
         """get_leaves_identifiers() --  return list of leaves' identifiers in this (sub-)tree."""
         return [l.identifier for l in self.leaves]
 
+    @property
+    def identifier(self):
+        return self._identifier
+
+    @identifier.setter
+    def identifier(self, value):
+        self._identifier = value
+
     # special functions and accessors...
     def __repr__(self):
         tree_str = '('
@@ -77,7 +86,12 @@ class Tree(object):
             if l:
                 tree_str += ' : ' + str(l)
             sep = ', '
-        return tree_str+')'
+        tree_str += ')'
+        
+        if self.identifier is not None:
+            tree_str += self.identifier
+        
+        return tree_str
 
     edges = property(get_edges, None, None,
                      "List of edges to sub-trees.")
@@ -179,6 +193,9 @@ class _TreeBuilder(parser.AbstractHandler):
         if len(self.stack) == 0:
             self.root = t
         self.stack.append(t)
+
+    def new_tree_end(self, identifier = None):
+        self.stack[-1].identifier = identifier
 
     def new_edge(self,bootstrap,length):
         n = self.stack.pop()

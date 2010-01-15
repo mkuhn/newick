@@ -25,7 +25,8 @@ class AbstractHandler(object):
     def new_tree_begin(self):
         '''Callback called when the parsing begins.'''
         pass
-    def new_tree_end(self):
+
+    def new_tree_end(self, identifier = None):
         '''Callback called when the tree is completely parsed.'''
         pass
 
@@ -68,8 +69,10 @@ class _Parser(object):
         self.lexer.read_token(tokens.LParen)
         self.handler.new_tree_begin()
         self.parse_edge_list()
-        self.handler.new_tree_end()
         self.lexer.read_token(tokens.RParen)
+        identifier = self.lexer.read_token(tokens.ID).get_name() if self.lexer.peek_token(tokens.ID) else None
+        self.handler.new_tree_end(identifier)
+        
 
     def parse_leaf(self):
         ''' Parse a node on the form "identifier" '''
