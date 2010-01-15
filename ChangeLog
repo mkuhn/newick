@@ -1,3 +1,9 @@
+2010-01-15  Michael Kuhn <mkuhn@bitbucket>
+
+	* Add support for labels of internal nodes, but probably break
+	  support for bootstraps
+
+
 2008-09-30  Thomas Mailund  <mailund@birc.au.dk>
 
 	* newick/treetest.py: moved unit tests here.
