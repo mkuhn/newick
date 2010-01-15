@@ -42,7 +42,10 @@ class Comma(Token):
 
 class Number(Token):
     def __init__(self, number):
-        self.number = float(number)
+        if "." in number:
+            self.number = float(number)
+        else:
+            self.number = int(number)
 
     def get_number(self):
         return self.number

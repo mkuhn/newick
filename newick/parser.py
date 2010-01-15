@@ -70,7 +70,14 @@ class _Parser(object):
         self.handler.new_tree_begin()
         self.parse_edge_list()
         self.lexer.read_token(tokens.RParen)
-        identifier = self.lexer.read_token(tokens.ID).get_name() if self.lexer.peek_token(tokens.ID) else None
+        
+        if self.lexer.peek_token(tokens.Number):
+            identifier = str(self.lexer.read_token(tokens.Number).get_number())
+        elif self.lexer.peek_token(tokens.ID):
+            identifier = self.lexer.read_token(tokens.ID).get_name() 
+        else:
+            identifier = None
+
         self.handler.new_tree_end(identifier)
         
 

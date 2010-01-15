@@ -111,6 +111,9 @@ class TestFunctions(unittest.TestCase):
         t = parse_tree("(('A', 'B')label, 'C')treelabel")
         self.assertEqual(t.identifier, "treelabel")
 
+        t = parse_tree("(('A', 'B')label, 'C')1")
+        self.assertEqual(t.identifier, "1")
+
 
     def testAddDistanceFromRoot(self):
         ''' Test the add_distance_from_root() function. '''
