@@ -21,7 +21,7 @@ class AbstractHandler(object):
     parsing trees.  A handler can be used for extracting information
     from a tree without explicitly representing the tree in a
     datastructure.'''
-   
+
     def new_tree_begin(self):
         '''Callback called when the parsing begins.'''
         pass
@@ -70,16 +70,16 @@ class _Parser(object):
         self.handler.new_tree_begin()
         self.parse_edge_list()
         self.lexer.read_token(tokens.RParen)
-        
+
         if self.lexer.peek_token(tokens.Number):
             identifier = str(self.lexer.read_token(tokens.Number).get_number())
         elif self.lexer.peek_token(tokens.ID):
-            identifier = self.lexer.read_token(tokens.ID).get_name() 
+            identifier = self.lexer.read_token(tokens.ID).get_name()
         else:
             identifier = None
 
         self.handler.new_tree_end(identifier)
-        
+
 
     def parse_leaf(self):
         ''' Parse a node on the form "identifier" '''
@@ -91,10 +91,10 @@ class _Parser(object):
 
         # special case for when the identifier is just a number
         if self.lexer.peek_token(tokens.Number):
-            identifier = str(int(self.lexer.read_token(tokens.Number).get_number()))
+            identifier = str(self.lexer.read_token(tokens.Number).get_number())
             self.handler.new_leaf(identifier)
             return
-            
+
         identifier = self.lexer.read_token(tokens.ID).get_name()
         if identifier == '_':
             # blank name
@@ -102,7 +102,7 @@ class _Parser(object):
         else:
             self.handler.new_leaf(identifier)
 
-        
+
     def parse_edge_list(self):
         ''' parse a comma-separated list of edges. '''
         while 1:
@@ -112,7 +112,7 @@ class _Parser(object):
                 self.lexer.read_token(tokens.Comma)
             else:
                 break
-               
+
 
     def parse_edge(self):
         ''' Parse a single edge, either leaf [bootstrap] [: branch-length]
@@ -146,9 +146,9 @@ def parse(input, event_handler):
     _Parser(l,event_handler).parse()
     if hasattr(event_handler,"get_result"):
         return event_handler.get_result()
-    
 
-    
+
+
 
 if __name__ == '__main__':
     import unittest

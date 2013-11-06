@@ -128,7 +128,12 @@ class Leaf(object):
         return [self.identifier]
 
     def __repr__(self):
-        return "'"+self.identifier+"'"
+        s = self.identifier
+        
+        if " " in s:
+            return "'"+s+"'"
+        else:
+            return s
 
     leaves = property(get_leaves, None, None,
                       "List of leaves in this subtree.")

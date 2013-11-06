@@ -12,7 +12,7 @@ import tokens
 import re
 
 _patterns = [
-    (tokens.Number, 	re.compile(r'\s*(-?\d+(\.\d+)?([eE][+-]?\d+)?)\s*')),
+    (tokens.Number, 	re.compile(r'\s*(-?\d+(\.\d+)?([eE][+-]?\d+)?)\s*(?=[,:(); \t\n])')),
     (tokens.ID, 	re.compile(r"\s*((\"[^\"]+\")|('[^']+')|(\w[^,:(); \t\n]*|_)+)\s*")),
     (tokens.Colon, 	re.compile(r'\s*(:)\s*')),
     (tokens.SemiColon, 	re.compile(r'\s*(;)\s*')),
