@@ -42,6 +42,7 @@ class Comma(Token):
 
 class Number(Token):
     def __init__(self, number):
+        self.identifier = number
         if "." in number:
             self.number = float(number)
         else:
@@ -49,6 +50,9 @@ class Number(Token):
 
     def get_number(self):
         return self.number
+
+    def get_name(self):
+        return self.identifier
 
     def __repr__(self):
         return 'NUMBER"'+str(self.number)+'"'

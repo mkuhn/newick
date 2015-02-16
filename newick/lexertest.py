@@ -1,6 +1,6 @@
 
 import unittest
-import tokens
+from newick import tokens
 from lexer import *
 
 class LexerTest(unittest.TestCase):

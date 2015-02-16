@@ -6,8 +6,8 @@ Copyright (C) 2003-2008, Thomas Mailund <mailund@birc.au.dk>
 This module contains the representation of trees and a parser for
 creating trees from a Newick string or file. '''
 
-import lexer
-import parser
+from newick import lexer
+from newick import parser
 
 
 class Tree(object):
@@ -87,10 +87,10 @@ class Tree(object):
                 tree_str += ' : ' + str(l)
             sep = ', '
         tree_str += ')'
-        
+
         if self.identifier is not None:
             tree_str += self.identifier
-        
+
         return tree_str
 
     edges = property(get_edges, None, None,
@@ -129,7 +129,7 @@ class Leaf(object):
 
     def __repr__(self):
         s = self.identifier
-        
+
         if " " in s:
             return "'"+s+"'"
         else:
@@ -215,12 +215,12 @@ class _TreeBuilder(parser.AbstractHandler):
         return self.root
 
 
-def parse_tree(input):
+def parse_tree(input, convert_numbers=False):
     '''Parse input as a Newick description of a tree and return the
     tree in a tree data structure.'''
-    return parser.parse(input,_TreeBuilder())
+    return parser.parse(input,_TreeBuilder(), convert_numbers)
 
-    
+
 def add_parent_links(tree):
     '''Extend all nodes (except for the root, of course) with a parent link.'''
     class V(TreeVisitor):

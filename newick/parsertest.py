@@ -1,11 +1,11 @@
 
 import unittest
-import lexer
-from parser import _Parser, AbstractHandler, parse
+from newick import lexer
+from newick.parser import _Parser, AbstractHandler, parse
 
 class ParserTest(unittest.TestCase):
     ''' Test of the _Parser class. '''
-    
+
     def testLeafParsing(self):
         ''' Test that the parser handles leaf-nodes correctly. '''
 
@@ -100,7 +100,7 @@ class ParserTest(unittest.TestCase):
         label_edge_handler = EdgeHandler()
         label_edge_parser = _Parser(label_edge_lexer,label_edge_handler)
         label_edge_parser.parse_edge()
-        
+
         bootstrap_edge_lexer = lexer.Lexer("(dummy,tree) 0.8")
         bootstrap_edge_handler = EdgeHandler()
         bootstrap_edge_parser = _Parser(bootstrap_edge_lexer,
@@ -307,7 +307,7 @@ test_suite.addTest(unittest.makeSuite(HandlerTest))
 
 if __name__ == '__main__':
     unittest.TextTestRunner(verbosity=2).run(test_suite)
-    
+
 
 
 

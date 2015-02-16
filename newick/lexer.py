@@ -8,7 +8,7 @@ rarely need to access it in your own modules and should probably only
 use the parser or tree modules, and from those most likely only the
 objects loaded into the mail package.  '''
 
-import tokens
+from newick import tokens
 import re
 
 _patterns = [

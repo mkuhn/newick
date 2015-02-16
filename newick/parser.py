@@ -5,7 +5,7 @@ Copyright (C) 2003-2008, Thomas Mailund <mailund@birc.au.dk>
 
 This module contains the functionality for grammatical analysis. '''
 
-import tokens
+from newick import tokens
 
 class ParserError(Exception):
     '''Exception thrown if the parser encounters an error.'''
@@ -45,9 +45,10 @@ class _Parser(object):
     '''State of the parser during parsing.  Should not be used
     directly by users of this package.'''
 
-    def __init__(self, lexer, handler):
+    def __init__(self, lexer, handler, convert_numbers):
         self.lexer = lexer
         self.handler = handler
+        self.convert_numbers = convert_numbers
 
     def parse(self):
         ''' Parse a complete tree, calling the handler along the way for each
@@ -71,9 +72,7 @@ class _Parser(object):
         self.parse_edge_list()
         self.lexer.read_token(tokens.RParen)
 
-        if self.lexer.peek_token(tokens.Number):
-            identifier = str(self.lexer.read_token(tokens.Number).get_number())
-        elif self.lexer.peek_token(tokens.ID):
+        if self.lexer.peek_token(tokens.ID):
             identifier = self.lexer.read_token(tokens.ID).get_name()
         else:
             identifier = None
@@ -91,7 +90,12 @@ class _Parser(object):
 
         # special case for when the identifier is just a number
         if self.lexer.peek_token(tokens.Number):
-            identifier = str(self.lexer.read_token(tokens.Number).get_number())
+
+            if self.convert_numbers:
+                identifier = str(self.lexer.read_token(tokens.Number).get_number())
+            else:
+                identifier = self.lexer.read_token(tokens.Number).get_name()
+
             self.handler.new_leaf(identifier)
             return
 
@@ -136,14 +140,14 @@ class _Parser(object):
         self.handler.new_edge(bootstrap,length)
 
 
-def parse(input, event_handler):
+def parse(input, event_handler, convert_numbers=False, ):
     '''Parse input and invoke callbacks in event_handler.  If
     event_handler implements a get_result() method, parse will return
     the result of calling this after complete parsing, otherwise None
     is returned.'''
-    import lexer
+    from newick import lexer
     l = lexer.Lexer(input)
-    _Parser(l,event_handler).parse()
+    _Parser(l,event_handler, convert_numbers).parse()
     if hasattr(event_handler,"get_result"):
         return event_handler.get_result()
 
@@ -152,5 +156,5 @@ def parse(input, event_handler):
 
 if __name__ == '__main__':
     import unittest
-    from parsertest import test_suite
+    from newick.parsertest import test_suite
     unittest.TextTestRunner(verbosity=2).run(test_suite)
