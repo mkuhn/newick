@@ -1,6 +1,9 @@
-
-  This module contains a python parser for the Newick tree format.  It
+This module contains a python parser for the Newick tree format.  It
 reads in trees like:
+
+
+```
+#!newick
 
 (
   ('Chimp' 1 : 0.052,
@@ -10,22 +13,33 @@ reads in trees like:
    'Orangutan' 1 : 0.0971) 1 : 0.038
 );
 
+```
+
 where parenthesis denotes the sub-trees and the edges are annotated
 "bootstrap-value : length", where both bootstrap value and length is
 optional.
 
-  The simplest usage is to load the parser from newick.tree and read
+The simplest usage is to load the parser from newick.tree and read
 the tree from a string:
+
+
+```
+#!python
 
 from newick.tree import parse_tree
 print parse_tree("('A', 'B')")
 
-  A tree parsed this way can then be traversed and manipulated.
+```
 
+A tree parsed this way can then be traversed and manipulated.
 
-  By using "handlers" it is possible to extract information from the
+By using "handlers" it is possible to extract information from the
 tree--through call-backs--without first building the entire tree.  The
 following example uses this to calculate the total branch sum:
+
+
+```
+#!python
 
 import newick
 import sys
@@ -48,3 +62,4 @@ parser  = newick.Parser(lexer,handler)
 
 parser.parse()
 print handler.get_sum()
+```
